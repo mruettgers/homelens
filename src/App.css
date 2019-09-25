@@ -1,0 +1,9 @@
+.App {
+    text-align: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    min-width: 1024px;
+    min-height: 600px;
+    overflow: hidden;
+    background-image: url('/assets/background/phil_noah_sw.png');
+}
