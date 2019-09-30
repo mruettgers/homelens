@@ -24,10 +24,10 @@ class IdleTimer extends React.Component<IdleTimerProps> {
     }
 
     handleOnIdle(e: Event) {
-        const {location, redirectTo, history} = this.props;
+        const { location, redirectTo, history } = this.props;
         if (!location || !redirectTo) {
             return;
-        } 
+        }
 
         if (location.pathname === redirectTo) {
             return;
@@ -37,19 +37,17 @@ class IdleTimer extends React.Component<IdleTimerProps> {
 
     render() {
         return (
-            <div>
-                <ReactIdleTimer
-                    ref={this.timer}
-                    element={document}
-                    onActive={(e) => this.handleOnActive(e)}
-                    onIdle={(e) => this.handleOnIdle(e)}
-                    onAction={(e) => this.handleOnAction(e)}
-                    debounce={250}
-                    timeout={this.props.timeout || (1000 * 60 * 3)}
-                >
-                    {this.props.children}
-                </ReactIdleTimer>
-            </div>
+            <ReactIdleTimer
+                ref={this.timer}
+                element={document}
+                onActive={(e) => this.handleOnActive(e)}
+                onIdle={(e) => this.handleOnIdle(e)}
+                onAction={(e) => this.handleOnAction(e)}
+                debounce={250}
+                timeout={this.props.timeout || (1000 * 60 * 3)}
+            >
+                {this.props.children}
+            </ReactIdleTimer>
         );
 
     }

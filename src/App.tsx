@@ -13,6 +13,9 @@ import routes from './routes';
 import { createBrowserHistory } from 'history';
 import IdleTimer from './components/IdleTimer';
 import BackButton from './components/BackButton';
+import WebSocketClient, { WebSocketClientEvent } from './components/WebSocketClient';
+import { debounce } from 'ts-debounce';
+import axios from 'axios';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -31,13 +34,33 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
+const history = createBrowserHistory();
+
 const App: React.FC = () => {
+
+
+
   const classes = useStyles();
 
-  const history = createBrowserHistory();
+  const handlePresence = debounce(() => {
+    // Enable back light
+    axios.get('http://127.0.0.1:42424/screen_ON');
+    // Go to doorcam
+    history.push('/cctv/door');
+  }, 60 * 1000, { isImmediate: true });
+
+  const handleWebSocketEvent = (ev: WebSocketClientEvent) => {
+    if (ev.name === 'presence') {
+      handlePresence();
+    }
+  }
 
   return (
     <Router history={history}>
+      <WebSocketClient
+        url='ws://nodered.home/ws/doormon'
+        onEvent={handleWebSocketEvent}
+      />
       <IdleTimer redirectTo="/">
         <div className="App">
           <AppBar position="static" className={classes.appBar}>
