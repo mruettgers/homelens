@@ -4,10 +4,7 @@ import { WithStyles } from '@material-ui/styles/withStyles';
 
 const styles = (theme: Theme) => createStyles({
     root: {
-        border: '1px solid green',
-        position: 'relative',
-        height: '100vh',
-        width: '100%'
+        position: 'relative'
     },
     primary: {
         width: '100%'
