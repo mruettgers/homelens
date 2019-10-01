@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from 'react'
+import React, { PropsWithChildren } from 'react';
 
 export class WebSocketClientEvent {
     public name: string;
@@ -21,13 +21,12 @@ interface WebSocketClientProps {
 class WebSocketClient extends React.Component<WebSocketClientProps> {
 
     private socket?: WebSocket;
+    private reconnecting = false;
 
     constructor(props: PropsWithChildren<WebSocketClientProps>) {
         super(props)
-
-
-        this.connectWebSocket();
-    }
+        this.initWebSocket();
+   }
 
     handleOnMessage(message: MessageEvent) {
         const { onMessage } = this.props;
@@ -39,16 +38,16 @@ class WebSocketClient extends React.Component<WebSocketClientProps> {
 
     handleOnClose(ev: CloseEvent) {
         console.log('Close: ', ev);
+        this.socket = undefined;
         this.reconnectWebSocket();
     }
 
     handleOnError(ev: Event) {
         console.log('Error: ', ev);
-        this.reconnectWebSocket();
     }
 
     handleOnEvent(ev: WebSocketClientEvent) {
-        const {onEvent} = this.props;
+        const { onEvent } = this.props;
         if (onEvent) {
             onEvent(ev);
         }
@@ -70,20 +69,35 @@ class WebSocketClient extends React.Component<WebSocketClientProps> {
         }
     }
 
+    async initWebSocket(){
+        this.socket = await this.connectWebSocket();
+    } 
 
     reconnectWebSocket() {
+        if (this.reconnecting) {
+            console.log('Already reconnecting, will abort reconnect.');
+            return;
+        }
         const { delay = 5 } = this.props;
-        console.log(`Reconnecting in ${delay} seconds.`)
-        setTimeout(() => this.connectWebSocket(), delay * 1000);
+        this.reconnecting = true;
+
+        setTimeout(async () => {
+            try{
+                this.socket = await this.connectWebSocket();
+            } 
+            catch (e){} 
+            this.reconnecting = false;
+        }, delay * 1000);
     }
 
-    connectWebSocket() {
+    async connectWebSocket() {
         const { url } = this.props;
         console.log(`Connecting to ${url}.`);
-        this.socket = new WebSocket(url);
-        this.socket.onclose = (ev) => this.handleOnClose(ev);
-        this.socket.onerror = (ev) => this.handleOnError(ev);
-        this.socket.onmessage = (message) => this.handleOnMessage(message);
+        const socket = new WebSocket(url);
+        socket.onclose = (ev) => this.handleOnClose(ev);
+        socket.onerror = (ev) => this.handleOnError(ev);
+        socket.onmessage = (message) => this.handleOnMessage(message);
+        return socket;
     }
 
     render() {
