@@ -19,7 +19,10 @@ import axios from 'axios';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    flexGrow: 1,
+    display: 'flex',
+    flexDirection: 'column'
+  },
+  header: {
   },
   appBar: {
   },
@@ -31,6 +34,8 @@ const useStyles = makeStyles(theme => ({
     textAlign: 'left',
     userSelect: 'none',
   },
+  content: {
+  }
 }));
 
 
@@ -63,28 +68,34 @@ const App: React.FC = () => {
       />
       <IdleTimer redirectTo="/">
         <div className="App">
-          <AppBar position="static" className={classes.appBar}>
-            <Toolbar>
-              <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-                <MenuIcon />
-              </IconButton>
-              <Typography variant="h6" className={classes.title}>
-                {routes.render('title')}
-              </Typography>
-              <Link to="/cctv/door">
-                <IconButton>
-                  <CameraIcon />
-                </IconButton>
-              </Link>
-              <IconButton onClick={() => (document.location.href = '/?ts=' + Date.now())}>
-                <RefreshIcon />
-              </IconButton>
-              {routes.render(({ route }) => {
-                return (<BackButton route={route} />);
-              })}
-            </Toolbar>
-          </AppBar>
-          {routes.render('main')}
+          <div className={classes.root}>
+            <div className={classes.header}>
+              <AppBar position="static" className={classes.appBar}>
+                <Toolbar>
+                  <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+                    <MenuIcon />
+                  </IconButton>
+                  <Typography variant="h6" className={classes.title}>
+                    {routes.render('title')}
+                  </Typography>
+                  <Link to="/cctv/door">
+                    <IconButton>
+                      <CameraIcon />
+                    </IconButton>
+                  </Link>
+                  <IconButton onClick={() => (document.location.href = '/?ts=' + Date.now())}>
+                    <RefreshIcon />
+                  </IconButton>
+                  {routes.render(({ route }) => {
+                    return (<BackButton route={route} />);
+                  })}
+                </Toolbar>
+              </AppBar>
+            </div>
+            <div className={classes.content}>
+              {routes.render('main')}
+            </div>
+          </div>
         </div>
       </IdleTimer>
     </Router>
