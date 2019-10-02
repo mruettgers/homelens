@@ -4,10 +4,12 @@ import { WithStyles } from '@material-ui/styles/withStyles';
 
 const styles = (theme: Theme) => createStyles({
     root: {
-        position: 'relative'
+        position: 'relative',
+        width: '100%',
+        height: '100%'
     },
     primary: {
-        width: '100%'
+        width: '100%',
     },
     secondary: {
         border: '1px solid black',

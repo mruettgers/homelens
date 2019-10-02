@@ -2,8 +2,15 @@
     text-align: center;
     background-size: cover;
     background-repeat: no-repeat;
-    min-width: 1024px;
-    min-height: 600px;
+    height: 100vh;
+    width: 100%;
     overflow: hidden;
+}
+
+.App .content {
     background-image: url('/assets/background/phil_noah_sw.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100%;
+    width: 100%;
 }

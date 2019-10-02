@@ -26,7 +26,7 @@ const routes: RouteConfig[] = [
         path: "/",
         exact: true,
         title: () => <div>Home</div>,
-        main: () => <h2>Home</h2>,
+        main: () => <div></div>,
         children: [
             {
                 path: "/cctv",
