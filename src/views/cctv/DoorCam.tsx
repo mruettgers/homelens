@@ -33,8 +33,17 @@ class DoorCam extends React.Component<DoorCamProps> {
         'http://frontyard1.live.cctv.home',
     ];
 
+    private imageRefs = {
+        primary: React.createRef<HTMLImageElement>(),
+        secondary: React.createRef<HTMLImageElement>()
+    }
+
     componentDidMount() {
         this.setState({ ts: Date.now() });
+    }
+
+    componentWillUnmount() {
+        this.unloadStreams();
     }
 
     render() {
@@ -49,13 +58,15 @@ class DoorCam extends React.Component<DoorCamProps> {
                     className={classes.primary}
                     src={this.getStreamUrl(primary)}
                     alt=""
+                    ref={this.imageRefs.primary}
                 />
                 <Link onClick={() => this.setState({ primary: secondary, ts: Date.now() })}>
                     <img
                         className={classes.secondary}
                         src={this.getStreamUrl(secondary)}
                         alt=""
-                    />
+                        ref={this.imageRefs.secondary}
+                        />
                 </Link>
             </div>
         );
@@ -63,6 +74,14 @@ class DoorCam extends React.Component<DoorCamProps> {
 
     getStreamUrl(index: number) {
         return this.streams[index] + '?ts=' + this.state.ts;
+    }
+
+    unloadStreams() {
+        [this.imageRefs.primary, this.imageRefs.secondary].forEach((ref) => {
+            if (ref.current) {
+                ref.current.src = '';
+            }
+        })
     }
 }
 
