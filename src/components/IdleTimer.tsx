@@ -1,21 +1,15 @@
 import React, { createRef } from 'react';
-import { withRouter, RouteComponentProps } from 'react-router';
 import { default as ReactIdleTimer } from 'react-idle-timer';
+import { withRouterAndRef } from './helpers';
+import { RouteComponentProps, withRouter } from 'react-router';
 
 interface IdleTimerProps extends RouteComponentProps {
-    redirectTo?: string
     timeout?: number
-    /*
-    onAction?: (e: Event) => void
-    onActive?: (e: Event) => void
-    onIdle?: (e: Event) => void
-    */
+    redirectTo?: string
 }
-
 
 class IdleTimer extends React.Component<IdleTimerProps> {
     private timer = createRef<ReactIdleTimer>()
-
 
     handleOnAction(e: Event) {
     }
@@ -52,6 +46,5 @@ class IdleTimer extends React.Component<IdleTimerProps> {
 
     }
 }
-
 
 export default withRouter(IdleTimer);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createRef } from 'react';
 import './App.css';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -28,12 +28,10 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-
 const history = createBrowserHistory();
 
+
 const App: React.FC = () => {
-
-
 
   const classes = useStyles();
 
@@ -42,6 +40,10 @@ const App: React.FC = () => {
     axios.get('http://127.0.0.1:42424/screen_ON');
     // Go to doorcam
     history.push('/cctv/door');
+    /*
+    if (idleTimer.current) {
+      idleTimer.current.reset();
+    }*/
   }, 60 * 1000, { isImmediate: true });
 
   const handleWebSocketEvent = (ev: WebSocketClientEvent) => {
