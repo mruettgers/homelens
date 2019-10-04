@@ -1,7 +1,7 @@
 import React, { createRef } from 'react';
 import { default as ReactIdleTimer } from 'react-idle-timer';
-import { withRouterAndRef } from './helpers';
-import { RouteComponentProps, withRouter } from 'react-router';
+import { withRouterAndRef } from '../helpers';
+import { RouteComponentProps } from 'react-router';
 
 interface IdleTimerProps extends RouteComponentProps {
     timeout?: number
@@ -47,4 +47,4 @@ class IdleTimer extends React.Component<IdleTimerProps> {
     }
 }
 
-export default withRouter(IdleTimer);
+export default withRouterAndRef(IdleTimer);

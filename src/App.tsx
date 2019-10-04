@@ -1,4 +1,4 @@
-import React, { createRef } from 'react';
+import React from 'react';
 import './App.css';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -8,6 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import CameraIcon from '@material-ui/icons/Videocam';
+import MusicIcon from '@material-ui/icons/MusicNote';
 import { Router, Link } from "react-router-dom";
 import routes from './routes';
 import { createBrowserHistory } from 'history';
@@ -34,16 +35,16 @@ const history = createBrowserHistory();
 const App: React.FC = () => {
 
   const classes = useStyles();
+  const idleTimer = React.createRef<any>();
 
   const handlePresence = debounce(() => {
     // Enable back light
     axios.get('http://127.0.0.1:42424/screen_ON');
     // Go to doorcam
     history.push('/cctv/door');
-    /*
     if (idleTimer.current) {
       idleTimer.current.reset();
-    }*/
+    }
   }, 60 * 1000, { isImmediate: true });
 
   const handleWebSocketEvent = (ev: WebSocketClientEvent) => {
@@ -58,7 +59,7 @@ const App: React.FC = () => {
         url='ws://nodered.home/ws/doormon'
         onEvent={handleWebSocketEvent}
       />
-      <IdleTimer redirectTo="/">
+      <IdleTimer ref={idleTimer} redirectTo="/">
         <div className="App">
           <div className="header">
             <AppBar position="static">
@@ -69,6 +70,11 @@ const App: React.FC = () => {
                 <Typography variant="h6" className={classes.title}>
                   {routes.render('title')}
                 </Typography>
+                <Link to="/entertain/music">
+                  <IconButton>
+                    <MusicIcon />
+                  </IconButton>
+                </Link>
                 <Link to="/cctv/door">
                   <IconButton>
                     <CameraIcon />

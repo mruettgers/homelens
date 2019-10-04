@@ -8,7 +8,7 @@ export const withRouterAndRef = (Wrapped: any) => {
         return (<Wrapped ref={forwardRef} {...otherProps} />);
 
     });
-    const WithRouterAndRef = React.forwardRef((props, ref) => (
+    const WithRouterAndRef: any = React.forwardRef((props, ref) => (
         <WithRouter {...props} forwardRef={ref} />
     ))
     const name = Wrapped.displayName || Wrapped.name

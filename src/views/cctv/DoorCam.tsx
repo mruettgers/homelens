@@ -1,6 +1,5 @@
 import React from 'react';
-import { Link, withStyles, createStyles, Theme } from '@material-ui/core';
-import { WithStyles } from '@material-ui/styles/withStyles';
+import { Link, withStyles, createStyles, Theme, WithStyles } from '@material-ui/core';
 
 const styles = (theme: Theme) => createStyles({
     root: {
@@ -20,10 +19,8 @@ const styles = (theme: Theme) => createStyles({
     }
 });
 
-interface DoorCamProps extends WithStyles<typeof styles> {
-}
 
-class DoorCam extends React.Component<DoorCamProps> {
+class DoorCam extends React.Component<WithStyles<typeof styles>> {
 
     state = {
         ts: 0,

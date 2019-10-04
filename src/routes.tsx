@@ -1,5 +1,6 @@
 import React, { FunctionComponent, ReactNode } from 'react';
 import DoorCam from './views/cctv/DoorCam';
+import Music from './views/entertain/Music';
 import { Route, RouteComponentProps } from 'react-router';
 
 export interface RouteConfig {
@@ -38,6 +39,17 @@ const routes: RouteConfig[] = [
                         main: () => <DoorCam />
                     }
                 ]
+            },
+            {
+                path: "/entertain",
+                children: [
+                    {
+                        path: "/entertain/music",
+                        exact: true,
+                        title: () => <div>ENTERTAIN | Music</div>,
+                        main: () => <Music />
+                    }
+                ]
             }
         ]
     },
@@ -46,7 +58,7 @@ const routes: RouteConfig[] = [
 
 const renderRoutes = (routes: RouteConfig[], component: string | FunctionComponent<RouteRenderComponentProps>, parent?: RouteConfig, key: number = 0) => {
     const result: ReactNode[] = [];
-    routes.forEach((route) => {
+    routes.forEach((route, index) => {
         const RouteComponent = typeof component === 'function' ? component : route[component];
         route.parent = parent;
         result.push(
@@ -60,7 +72,7 @@ const renderRoutes = (routes: RouteConfig[], component: string | FunctionCompone
                 /> : null}
             />
         );
-        (route.children ? renderRoutes(route.children, component, route, key) : []).forEach(v => result.push(v));
+        (route.children ? renderRoutes(route.children, component, route, key++) : []).forEach(v => result.push(v));
     });
     return result;
 }
