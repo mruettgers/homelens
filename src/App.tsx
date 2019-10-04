@@ -36,7 +36,7 @@ const history = createBrowserHistory();
 const App: React.FC = () => {
 
   const classes = useStyles();
-  const idleTimer = React.createRef<any>();
+  const idleTimer = React.createRef<typeof IdleTimer>();
 
   const handlePresence = debounce(() => {
     // Emit event for being consumed by others
