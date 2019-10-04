@@ -45,6 +45,12 @@ class IdleTimer extends React.Component<IdleTimerProps> {
         );
 
     }
+
+    reset() {
+        if (this.timer.current) {
+            this.timer.current.reset();
+        }
+    }
 }
 
 export default withRouterAndRef(IdleTimer);

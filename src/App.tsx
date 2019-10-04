@@ -17,6 +17,7 @@ import BackButton from './components/BackButton';
 import WebSocketClient, { WebSocketClientEvent } from './components/WebSocketClient';
 import { debounce } from 'ts-debounce';
 import axios from 'axios';
+import PresenceEvent from './events/PresenceEvent';
 
 const useStyles = makeStyles(theme => ({
   menuButton: {
@@ -38,10 +39,16 @@ const App: React.FC = () => {
   const idleTimer = React.createRef<any>();
 
   const handlePresence = debounce(() => {
+    // Emit event for being consumed by others
+    document.dispatchEvent(new PresenceEvent('frontdoor'));
+
     // Enable back light
     axios.get('http://127.0.0.1:42424/screen_ON');
+
     // Go to doorcam
     history.push('/cctv/door');
+
+    // Reset idle timer
     if (idleTimer.current) {
       idleTimer.current.reset();
     }
