@@ -14,6 +14,7 @@ import routes from './routes';
 import { createBrowserHistory } from 'history';
 import IdleTimer from './components/IdleTimer';
 import BackButton from './components/BackButton';
+import Clock from './widgets/Clock';
 import WebSocketClient, { WebSocketClientEvent } from './components/WebSocketClient';
 import { debounce } from 'ts-debounce';
 import axios from 'axios';
@@ -70,6 +71,7 @@ const App: React.FC = () => {
                 <Typography variant="h6" className={classes.title}>
                   {routes.render('title')}
                 </Typography>
+                <Typography variant="h6"><Clock/></Typography>
                 <Link to="/entertain/music">
                   <IconButton>
                     <MusicIcon />
