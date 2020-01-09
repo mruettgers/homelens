@@ -26,7 +26,7 @@ class Clock extends React.Component<WithStyles<typeof styles>> {
 
         return (
             <div className={classes.root}>
-               <h2></h2>{this.state.now.format('HH:mm')}
+               {this.state.now.format('HH:mm')}
             </div>
         );
     }

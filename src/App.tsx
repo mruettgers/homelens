@@ -24,8 +24,12 @@ const useStyles = makeStyles(theme => ({
     marginRight: theme.spacing(2),
   },
   title: {
-    flexGrow: 1,
     textAlign: 'left',
+    userSelect: 'none',
+  },
+  clock: {
+    flexGrow: 1,
+    textAlign: 'center',
     userSelect: 'none',
   },
 }));
@@ -71,7 +75,9 @@ const App: React.FC = () => {
                 <Typography variant="h6" className={classes.title}>
                   {routes.render('title')}
                 </Typography>
-                <Typography variant="h6"><Clock/></Typography>
+                <Typography variant="h6" className={classes.clock}>
+                  <Clock />
+                </Typography>
                 <Link to="/entertain/music">
                   <IconButton>
                     <MusicIcon />
