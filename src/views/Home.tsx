@@ -44,7 +44,6 @@ class Home extends React.Component<WithStyles<typeof styles>> {
                 <Grid container spacing={3}>
                     <Grid item xs>
                         <Card className={classes.card}>
-                                <Link to="/entertain/music">
                             <CardActionArea>
                                 <Link to="/entertain/music">
                                     <Typography variant="h2" component="h2">
