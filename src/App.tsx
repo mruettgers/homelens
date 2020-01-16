@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -12,10 +12,12 @@ import MusicIcon from '@material-ui/icons/MusicNote';
 import { Router, Link } from "react-router-dom";
 import routes from './routes';
 import { createBrowserHistory } from 'history';
-import IdleTimer from './components/IdleTimer';
+import IdleTimer, {TimerEvent} from './components/IdleTimer';
 import BackButton from './components/BackButton';
 import Clock from './widgets/Clock';
+import Timer from './widgets/Timer';
 import WebSocketClient, { WebSocketClientEvent } from './components/WebSocketClient';
+import PresenceEvent from './events/PresenceEvent';
 import { debounce } from 'ts-debounce';
 import axios from 'axios';
 
@@ -40,13 +42,27 @@ const history = createBrowserHistory();
 const App: React.FC = () => {
 
   const classes = useStyles();
-  const idleTimer = React.createRef<any>();
+  const idleTimer = React.createRef<typeof IdleTimer>();
+
+  const defaultIdleTimerTimeout = 3 * 60 * 1000;
+  const [idleTimerTimeout, setIdleTimerTimeout] = useState(defaultIdleTimerTimeout);
+  const [idleTimerRemaining, setIdleTimerRemaining] = useState(0);
 
   const handlePresence = debounce(() => {
+    // Emit event for being consumed by others
+    document.dispatchEvent(new PresenceEvent('frontdoor'));
+
     // Enable back light
-    axios.get('http://127.0.0.1:42424/screen_ON');
+    axios
+    .get('http://127.0.0.1:42424/screen_ON')
+    .catch(e => {
+      // Probably not a panel
+    });
+
     // Go to doorcam
     history.push('/cctv/door');
+
+    // Reset timer
     if (idleTimer.current) {
       idleTimer.current.reset();
     }
@@ -64,7 +80,7 @@ const App: React.FC = () => {
         url='ws://nodered.home/ws/doormon'
         onEvent={handleWebSocketEvent}
       />
-      <IdleTimer ref={idleTimer} redirectTo="/">
+      <IdleTimer ref={idleTimer} timeout={idleTimerTimeout} redirectTo="/" onTimer={(e: TimerEvent) => setIdleTimerRemaining(e.remaining)}>
         <div className="App">
           <div className="header">
             <AppBar position="static">
@@ -77,6 +93,9 @@ const App: React.FC = () => {
                 </Typography>
                 <Typography variant="h6" className={classes.clock}>
                   <Clock />
+                </Typography>
+                <Typography>
+                  <Timer remaining={idleTimerRemaining} />
                 </Typography>
                 <Link to="/entertain/music">
                   <IconButton>

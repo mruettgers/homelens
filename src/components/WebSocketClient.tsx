@@ -54,18 +54,21 @@ class WebSocketClient extends React.Component<WebSocketClientProps> {
     }
 
     parseAndProcessMessage(message: MessageEvent) {
+        let parsed;
         try {
-            const parsed = JSON.parse(message.data);
-            const { type } = parsed;
-            switch (type) {
-                case 'event': const { name } = parsed;
-                    this.handleOnEvent(new WebSocketClientEvent(name));
-                    break;
-
-            }
+            parsed = JSON.parse(message.data);
         }
         catch (e) {
-            console.log('Error while parsing message.', message);
+            console.log('Error while parsing message.', e, message);
+            return;
+        }
+    
+        const { type } = parsed;
+        switch (type) {
+            case 'event': const { name } = parsed;
+                this.handleOnEvent(new WebSocketClientEvent(name));
+                break;
+
         }
     }
 
