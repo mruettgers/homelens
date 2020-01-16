@@ -14,6 +14,7 @@ import routes from './routes';
 import { createBrowserHistory } from 'history';
 import IdleTimer from './components/IdleTimer';
 import BackButton from './components/BackButton';
+import Clock from './widgets/Clock';
 import WebSocketClient, { WebSocketClientEvent } from './components/WebSocketClient';
 import { debounce } from 'ts-debounce';
 import axios from 'axios';
@@ -24,8 +25,12 @@ const useStyles = makeStyles(theme => ({
     marginRight: theme.spacing(2),
   },
   title: {
-    flexGrow: 1,
     textAlign: 'left',
+    userSelect: 'none',
+  },
+  clock: {
+    flexGrow: 1,
+    textAlign: 'center',
     userSelect: 'none',
   },
 }));
@@ -76,6 +81,9 @@ const App: React.FC = () => {
                 </IconButton>
                 <Typography variant="h6" className={classes.title}>
                   {routes.render('title')}
+                </Typography>
+                <Typography variant="h6" className={classes.clock}>
+                  <Clock />
                 </Typography>
                 <Link to="/entertain/music">
                   <IconButton>

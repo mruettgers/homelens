@@ -1,6 +1,7 @@
 import React, { FunctionComponent, ReactNode } from 'react';
 import DoorCam from './views/cctv/DoorCam';
 import Music from './views/entertain/Music';
+import Home from './views/Home';
 import { Route, RouteComponentProps } from 'react-router';
 
 export interface RouteConfig {
@@ -27,7 +28,7 @@ const routes: RouteConfig[] = [
         path: "/",
         exact: true,
         title: () => <div>Home</div>,
-        main: () => <div></div>,
+        main: () => <Home />,
         children: [
             {
                 path: "/cctv",
