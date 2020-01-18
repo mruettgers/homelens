@@ -11,10 +11,18 @@ export class TimerEvent extends Event {
     }
 }
 
+export class IdleEvent extends Event {
+    constructor() {
+        super('idle');
+    }
+}
+
+
 interface IdleTimerProps extends RouteComponentProps {
-    timeout?: number
+    timeout: number
     redirectTo?: string
     onTimer?: (event: TimerEvent) => void
+    onIdle?: (event: IdleEvent) => void
 }
 
 class IdleTimer extends React.Component<IdleTimerProps> {
@@ -28,7 +36,7 @@ class IdleTimer extends React.Component<IdleTimerProps> {
                 if (onTimer) {
                     if (this.ref.current) {
                         const remaining = this.ref.current.getRemainingTime();
-                        onTimer(new TimerEvent(remaining > 0 ? Math.round(remaining / 1000) : 0));
+                        onTimer(new TimerEvent(remaining));
                     }
                 }
             }, 1000);
@@ -39,12 +47,14 @@ class IdleTimer extends React.Component<IdleTimerProps> {
     }
 
     handleOnIdle(e: Event) {
-        const { location, redirectTo, history, onTimer } = this.props;
+        const { location, redirectTo, history, onTimer, onIdle } = this.props;
         if (this.timer) {
             clearInterval(this.timer);
             this.timer = undefined;
             onTimer && onTimer(new TimerEvent(0));
         }
+
+        onIdle && onIdle(new IdleEvent());
 
         if (!location || !redirectTo) {
             return;
@@ -65,7 +75,7 @@ class IdleTimer extends React.Component<IdleTimerProps> {
                 onIdle={(e) => this.handleOnIdle(e)}
                 onAction={(e) => this.handleOnAction(e)}
                 debounce={250}
-                timeout={this.props.timeout || (1000 * 60 * 3)}
+                timeout={this.props.timeout}
             >
                 {this.props.children}
             </ReactIdleTimer>

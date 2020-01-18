@@ -12,15 +12,13 @@ import MusicIcon from '@material-ui/icons/MusicNote';
 import { Router, Link } from "react-router-dom";
 import routes from './routes';
 import { createBrowserHistory } from 'history';
-import IdleTimer, {TimerEvent} from './components/IdleTimer';
+import IdleTimer, { TimerEvent, IdleEvent } from './components/IdleTimer';
 import BackButton from './components/BackButton';
 import Clock from './widgets/Clock';
-import Timer from './widgets/Timer';
+import Timer, { IncreaseTimerEvent } from './widgets/Timer';
 import WebSocketClient, { WebSocketClientEvent } from './components/WebSocketClient';
 import PresenceEvent from './events/PresenceEvent';
 import { debounce } from 'ts-debounce';
-import axios from 'axios';
-import PresenceEvent from './events/PresenceEvent';
 import DeviceManager from './services/DeviceManager';
 
 const useStyles = makeStyles(theme => ({
@@ -52,7 +50,7 @@ const App: React.FC = () => {
   const [idleTimerRemaining, setIdleTimerRemaining] = useState(0);
 
   const handlePresence = debounce(() => {
-    
+
     // Emit event for being consumed by others
     document.dispatchEvent(new PresenceEvent('frontdoor'));
 
@@ -74,13 +72,28 @@ const App: React.FC = () => {
     }
   }
 
+  const handleTimerEvent = (ev: TimerEvent) => {
+    setIdleTimerRemaining(ev.remaining);
+  }
+
+  const handleIdleEvent = (ev: IdleEvent) => {
+    // Reset to default idle timer timeout (in case it has been increased by request)
+    setIdleTimerTimeout(defaultIdleTimerTimeout);
+  }
+
+  const handleIncreaseTimer = (ev: IncreaseTimerEvent) => {
+    // Increase idle timer timeout and reset to default if increased more than five times
+    const newTimeout = ev.remaining + defaultIdleTimerTimeout;
+    setIdleTimerTimeout(newTimeout > 5 * defaultIdleTimerTimeout ? defaultIdleTimerTimeout : newTimeout);
+  }
+
   return (
     <Router history={history}>
       <WebSocketClient
         url='ws://nodered.home/ws/doormon'
         onEvent={handleWebSocketEvent}
       />
-      <IdleTimer ref={idleTimer} timeout={idleTimerTimeout} redirectTo="/" onTimer={(e: TimerEvent) => setIdleTimerRemaining(e.remaining)}>
+      <IdleTimer ref={idleTimer} timeout={idleTimerTimeout} redirectTo="/" onTimer={handleTimerEvent} onIdle={handleIdleEvent}>
         <div className="App">
           <div className="header">
             <AppBar position="static">
@@ -94,9 +107,7 @@ const App: React.FC = () => {
                 <Typography variant="h6" className={classes.clock}>
                   <Clock />
                 </Typography>
-                <Typography>
-                  <Timer remaining={idleTimerRemaining} />
-                </Typography>
+                <Timer remaining={idleTimerRemaining} onIncreaseTimer={handleIncreaseTimer} />
                 <Link to="/entertain/music">
                   <IconButton>
                     <MusicIcon />
