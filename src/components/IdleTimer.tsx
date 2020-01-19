@@ -30,6 +30,29 @@ class IdleTimer extends React.Component<IdleTimerProps> {
     private timer: NodeJS.Timeout | undefined = undefined;
 
     handleOnAction(e: Event) {
+        this.enableTimerEventHandler();
+    }
+
+    handleOnActive(e: Event) {
+    }
+
+    handleOnIdle(e: Event) {
+        const { location, redirectTo, history, onIdle } = this.props;
+        this.disableTimerEventHandler();
+
+        onIdle && onIdle(new IdleEvent());
+
+        if (!location || !redirectTo) {
+            return;
+        }
+
+        if (location.pathname === redirectTo) {
+            return;
+        }
+        history.push(redirectTo);
+    }
+
+    enableTimerEventHandler() {
         if (!this.timer) {
             const { onTimer } = this.props;
             this.timer = setInterval(() => {
@@ -43,27 +66,13 @@ class IdleTimer extends React.Component<IdleTimerProps> {
         }
     }
 
-    handleOnActive(e: Event) {
-    }
-
-    handleOnIdle(e: Event) {
-        const { location, redirectTo, history, onTimer, onIdle } = this.props;
+    disableTimerEventHandler() {
+        const { onTimer } = this.props;
         if (this.timer) {
             clearInterval(this.timer);
             this.timer = undefined;
             onTimer && onTimer(new TimerEvent(0));
         }
-
-        onIdle && onIdle(new IdleEvent());
-
-        if (!location || !redirectTo) {
-            return;
-        }
-
-        if (location.pathname === redirectTo) {
-            return;
-        }
-        history.push(redirectTo);
     }
 
     render() {
@@ -86,6 +95,7 @@ class IdleTimer extends React.Component<IdleTimerProps> {
     reset() {
         if (this.ref.current) {
             this.ref.current.reset();
+            this.enableTimerEventHandler();
         }
     }
 
