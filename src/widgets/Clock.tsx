@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 import { withStyles, createStyles, Theme, WithStyles } from '@material-ui/core';
-import moment from 'moment-timezone'; 
+import moment, { Moment } from 'moment-timezone'; 
 
 const styles = (theme: Theme) => createStyles({
     root: {
@@ -9,20 +9,35 @@ const styles = (theme: Theme) => createStyles({
     } 
 });
 
+const defaultTimezone = 'Europe/Berlin';
 
-class Clock extends React.Component<WithStyles<typeof styles>> {
+interface ClockProps extends PropsWithChildren<WithStyles<typeof styles>> {
+    timezone?: string
+}
 
-    state = {
-        now: moment()    
+interface ClockState {
+    now?: Moment
+}
+
+class Clock extends React.Component<ClockProps> {
+    
+    state: ClockState = {
+        now: undefined
     }
 
-    constructor(props: WithStyles<typeof styles>) {
+    constructor(props: ClockProps) {
         super(props);
-        setInterval(() => this.setState({now: moment().tz('Europe/Berlin')}),1000);
+        const {timezone = defaultTimezone} = props;
+        this.state.now = moment().tz(timezone);
+        setInterval(() => this.setState({now: moment().tz(timezone)}),1000);
     }
 
     render() {
         const { classes } = this.props;
+
+        if (!this.state.now) {
+            return null;
+        }
 
         return (
             <div className={classes.root}>
