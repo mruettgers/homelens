@@ -1,12 +1,13 @@
 import React, { PropsWithChildren } from 'react';
 import { withStyles, createStyles, Theme, WithStyles } from '@material-ui/core';
-import moment, { Moment } from 'moment-timezone'; 
+import moment, { Moment } from 'moment-timezone';
 
 const styles = (theme: Theme) => createStyles({
     root: {
+        userSelect: 'none'
     },
-    clock:{
-    } 
+    clock: {
+    }
 });
 
 const defaultTimezone = 'Europe/Berlin';
@@ -17,19 +18,21 @@ interface ClockProps extends PropsWithChildren<WithStyles<typeof styles>> {
 
 interface ClockState {
     now?: Moment
+    showDate?: Boolean
 }
 
 class Clock extends React.Component<ClockProps> {
-    
+
     state: ClockState = {
-        now: undefined
+        now: undefined,
+        showDate: false
     }
 
     constructor(props: ClockProps) {
         super(props);
-        const {timezone = defaultTimezone} = props;
+        const { timezone = defaultTimezone } = props;
         this.state.now = moment().tz(timezone);
-        setInterval(() => this.setState({now: moment().tz(timezone)}),1000);
+        setInterval(() => this.setState({ now: moment().tz(timezone) }), 1000);
     }
 
     render() {
@@ -40,8 +43,12 @@ class Clock extends React.Component<ClockProps> {
         }
 
         return (
-            <div className={classes.root}>
-               {this.state.now.format('HH:mm')}
+            <div className={classes.root} onClick={() => this.setState({showDate: !this.state.showDate})}>
+                {
+                    this.state.showDate
+                        ? this.state.now.format('YYYY-MM-DD')
+                        : this.state.now.format('HH:mm')
+                }
             </div>
         );
     }
