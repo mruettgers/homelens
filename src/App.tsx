@@ -27,13 +27,31 @@ const useStyles = makeStyles(theme => ({
   },
   title: {
     textAlign: 'left',
+    flexGrow: 1,
     userSelect: 'none',
   },
   clock: {
-    flexGrow: 1,
+    width: '100vw',
+    position: 'fixed',
     textAlign: 'center',
     userSelect: 'none',
   },
+  timer: {
+    position: 'fixed',
+    opacity: 0.8,
+    left: 40,
+    bottom: 40,
+    zIndex: 2000,
+    width: 80,
+    height: 80,
+    borderRadius: '50%',
+    textAlign: 'center',
+    verticalAlign: 'middle',
+    lineHeight: '80px',
+    fontSize: 16,
+    color: theme.palette.text.primary,
+    backgroundColor: theme.palette.primary.dark
+  }
 }));
 
 const history = createBrowserHistory();
@@ -89,7 +107,7 @@ const App: React.FC = () => {
   const handleIncreaseTimer = (ev: IncreaseTimerEvent) => {
     // Increase idle timer timeout and reset to default if increased more than five times
     const newTimeout = ev.remaining + defaultIdleTimerTimeout;
-    setIdleTimerTimeout(newTimeout > 5 * defaultIdleTimerTimeout ? defaultIdleTimerTimeout : newTimeout);
+    setIdleTimerTimeout(newTimeout > 3 * defaultIdleTimerTimeout ? defaultIdleTimerTimeout : newTimeout);
   }
 
   return (
@@ -112,7 +130,6 @@ const App: React.FC = () => {
                 <Typography variant="h6" className={classes.clock}>
                   <Clock />
                 </Typography>
-                <Timer remaining={idleTimerRemaining} onIncreaseTimer={handleIncreaseTimer} />
                 <Link to="/entertain/music">
                   <IconButton>
                     <MusicIcon />
@@ -135,6 +152,14 @@ const App: React.FC = () => {
           <div className="content">
             {routes.render('main')}
           </div>
+          <Timer
+            remaining={idleTimerRemaining}
+            startAt={idleTimerTimeout - (5 * 1000)}
+            onIncreaseTimer={handleIncreaseTimer}
+            classes={{
+              root: classes.timer
+            }}
+          />
         </div>
       </IdleTimer>
     </Router>
