@@ -31,7 +31,8 @@ const useStyles = makeStyles(theme => ({
     userSelect: 'none',
   },
   clock: {
-    width: '100vw',
+    left: 0,
+    width: '100%',
     position: 'fixed',
     textAlign: 'center',
     userSelect: 'none',
