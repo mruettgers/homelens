@@ -1,6 +1,6 @@
 import React from 'react';
 import { withStyles, createStyles, Theme, WithStyles } from '@material-ui/core';
-import moment from 'moment'; 
+import moment from 'moment-timezone'; 
 
 const styles = (theme: Theme) => createStyles({
     root: {
@@ -18,7 +18,7 @@ class Clock extends React.Component<WithStyles<typeof styles>> {
 
     constructor(props: WithStyles<typeof styles>) {
         super(props);
-        setInterval(() => this.setState({now: moment()}),1000);
+        setInterval(() => this.setState({now: moment().tz('Europe/Berlin')}),1000);
     }
 
     render() {
