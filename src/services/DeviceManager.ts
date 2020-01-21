@@ -2,7 +2,7 @@ import axios from 'axios';
 
 class DeviceManager {
 
-    public backlightIdleTimeout: number = 5 * 60;
+    public backlightIdleTimeout: number = 600000;
 
     public enableBacklight() {
         axios

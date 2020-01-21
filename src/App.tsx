@@ -45,7 +45,7 @@ const App: React.FC = () => {
   const classes = useStyles();
   const idleTimer = React.createRef<typeof IdleTimer>();
 
-  const defaultIdleTimerTimeout = 3 * 60 * 1000;
+  const defaultIdleTimerTimeout = 5 * 60 * 1000;
   const [idleTimerTimeout, setIdleTimerTimeout] = useState(defaultIdleTimerTimeout);
   const [idleTimerRemaining, setIdleTimerRemaining] = useState(0);
 
@@ -74,6 +74,11 @@ const App: React.FC = () => {
 
   const handleTimerEvent = (ev: TimerEvent) => {
     setIdleTimerRemaining(ev.remaining);
+    const remainingSecs = ev.remaining > 0 ? Math.round(ev.remaining / 1000) : 0
+    if (remainingSecs % 60 === 0 && ev.remaining > (deviceManager.backlightIdleTimeout - 60000)) {
+      // Enable or keep backlight enabled
+      deviceManager.enableBacklight();
+    }
   }
 
   const handleIdleEvent = (ev: IdleEvent) => {

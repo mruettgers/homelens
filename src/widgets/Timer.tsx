@@ -32,10 +32,12 @@ class Timer extends React.Component<TimerProps> {
         if (remaining <= 0) {
             return null;
         }
+        const remainingSecs = Math.round(remaining / 1000);
+        const displayMins = Math.floor(remainingSecs / 60);
+        const displaySecs = remainingSecs % 60;
         return (
             <div className={classes.root} onClick={e => (onIncreaseTimer && onIncreaseTimer(new IncreaseTimerEvent(remaining)))}>
-                {remaining > 0 ? Math.round(remaining / 1000) : 0}
-                {/*remaining > 60 ? Math.ceil(remaining/60) + ' min' : remaining + ' sec'*/}
+                {displayMins}m {displaySecs}s
             </div>
         );
     }
