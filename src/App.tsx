@@ -154,7 +154,6 @@ const App: React.FC = () => {
           </div>
           <Timer
             remaining={idleTimerRemaining}
-            startAt={idleTimerTimeout - (5 * 1000)}
             onIncreaseTimer={handleIncreaseTimer}
             classes={{
               root: classes.timer
