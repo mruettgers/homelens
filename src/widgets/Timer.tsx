@@ -1,6 +1,5 @@
 import React, { PropsWithChildren } from 'react';
 import { withStyles, createStyles, Theme, WithStyles } from '@material-ui/core';
-import moment, { Moment } from 'moment';
 
 export class IncreaseTimerEvent extends Event {
     public remaining: number
@@ -13,7 +12,24 @@ export class IncreaseTimerEvent extends Event {
 
 const styles = (theme: Theme) => createStyles({
     root: {
-        userSelect: 'none'
+        userSelect: 'none',
+        position: 'fixed',
+        opacity: 0.8,
+        left: 40,
+        bottom: 40,
+        zIndex: 2000,
+        width: 80,
+        height: 80,
+        borderRadius: '50%',
+        borderWidth: 2,
+        borderColor: theme.palette.text.primary,
+        border: '2px solid white',
+        textAlign: 'center',
+        verticalAlign: 'middle',
+        lineHeight: '80px',
+        fontSize: 16,
+        color: theme.palette.text.primary,
+        backgroundColor: theme.palette.primary.dark
     },
     minutes: {},
     minutesLabel: {},
@@ -33,10 +49,6 @@ interface TimerState {
 class Timer extends React.Component<TimerProps> {
 
     state: TimerState = {
-    }
-
-    constructor(props: TimerProps) {
-        super(props);
     }
 
     render() {

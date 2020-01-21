@@ -26,6 +26,7 @@ const useStyles = makeStyles(theme => ({
     marginRight: theme.spacing(2),
   },
   title: {
+    color: theme.palette.text.primary,
     textAlign: 'left',
     flexGrow: 1,
     userSelect: 'none',
@@ -36,23 +37,9 @@ const useStyles = makeStyles(theme => ({
     position: 'fixed',
     textAlign: 'center',
     userSelect: 'none',
-  },
-  timer: {
-    position: 'fixed',
-    opacity: 0.8,
-    left: 40,
-    bottom: 40,
-    zIndex: 2000,
-    width: 80,
-    height: 80,
-    borderRadius: '50%',
-    textAlign: 'center',
-    verticalAlign: 'middle',
-    lineHeight: '80px',
-    fontSize: 16,
     color: theme.palette.text.primary,
-    backgroundColor: theme.palette.primary.dark
-  }
+  },
+
 }));
 
 const history = createBrowserHistory();
@@ -122,7 +109,7 @@ const App: React.FC = () => {
           <div className="header">
             <AppBar position="static">
               <Toolbar>
-                <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+                <IconButton edge="start" className={classes.menuButton} aria-label="menu">
                   <MenuIcon />
                 </IconButton>
                 <Typography variant="h6" className={classes.title}>
@@ -156,9 +143,6 @@ const App: React.FC = () => {
           <Timer
             remaining={idleTimerRemaining}
             onIncreaseTimer={handleIncreaseTimer}
-            classes={{
-              root: classes.timer
-            }}
           />
         </div>
       </IdleTimer>
