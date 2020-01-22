@@ -140,10 +140,10 @@ const App: React.FC = () => {
           <div className="content">
             {routes.render('main')}
           </div>
-          <Timer
+          {history.location.pathname !== '/' && <Timer
             remaining={idleTimerRemaining}
             onIncreaseTimer={handleIncreaseTimer}
-          />
+          />}
         </div>
       </IdleTimer>
     </Router>
