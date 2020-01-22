@@ -43,12 +43,14 @@ class Clock extends React.Component<ClockProps> {
         }
 
         return (
-            <div className={classes.root} onClick={() => this.setState({showDate: !this.state.showDate})}>
-                {
-                    this.state.showDate
-                        ? this.state.now.format('YYYY-MM-DD')
-                        : this.state.now.format('HH:mm')
-                }
+            <div className={classes.root}>
+                <span onClick={() => this.setState({ showDate: !this.state.showDate })}>
+                    {
+                        this.state.showDate
+                            ? this.state.now.format('YYYY-MM-DD')
+                            : this.state.now.format('HH:mm')
+                    }
+                </span>
             </div>
         );
     }
