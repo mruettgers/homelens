@@ -11,7 +11,9 @@ const styles = (theme: Theme) => createStyles({
         width: '100%',
     },
     secondary: {
-        border: '1px solid black',
+        borderStyle: 'solid',
+        borderWidth: 1,
+        borderColor: theme.palette.text.primary,
         width: '25%',
         position: 'absolute',
         right: '30px',
