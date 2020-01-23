@@ -5,11 +5,12 @@ import Clock from '../cards/Clock';
 import Placeholder from '../cards/Placeholder';
 import Calendar from '../cards/Calendar';
 import PlayingNow from '../cards/PlayingNow';
+import CCTV from '../cards/CCTV';
 
 const styles = (theme: Theme) => createStyles({
     root: {
         flexGrow: 1,
-        padding: 20,
+        padding: 24,
         userSelect: 'none',
         opacity: 0.9,
     },
@@ -35,12 +36,35 @@ class Home extends React.Component<WithStyles<typeof styles>> {
                         <Calendar />
                     </Grid>
                     <Grid item xs>
+                        <CCTV />
+                    </Grid>
+                    <Grid item xs>
+                        <Placeholder />
+                    </Grid>
+                    <Grid item xs>
                         <Placeholder />
                     </Grid>
                     <Grid item xs>
                         <Placeholder />
                     </Grid>
                     <Grid item xs>
+                        <Placeholder />
+                    </Grid><Grid item xs>
+                        <Placeholder />
+                    </Grid>
+                    <Grid item xs>
+                        <Placeholder />
+                    </Grid><Grid item xs>
+                        <Placeholder />
+                    </Grid>
+                    <Grid item xs>
+                        <Placeholder />
+                    </Grid><Grid item xs>
+                        <Placeholder />
+                    </Grid>
+                    <Grid item xs>
+                        <Placeholder />
+                    </Grid><Grid item xs>
                         <Placeholder />
                     </Grid>
                     <Grid item xs>
