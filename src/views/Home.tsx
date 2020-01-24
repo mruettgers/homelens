@@ -6,6 +6,7 @@ import Placeholder from '../cards/Placeholder';
 import Calendar from '../cards/Calendar';
 import PlayingNow from '../cards/PlayingNow';
 import CCTV from '../cards/CCTV';
+import Weather from '../cards/Weather';
 
 const styles = (theme: Theme) => createStyles({
     root: {
@@ -26,6 +27,9 @@ class Home extends React.Component<WithStyles<typeof styles>> {
         return (
             <div className={classes.root}>
                 <Grid container spacing={3}>
+                    <Grid item xs>
+                        <Weather />
+                    </Grid>
                     <Grid item xs>
                         <Clock />
                     </Grid>

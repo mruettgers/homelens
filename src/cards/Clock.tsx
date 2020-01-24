@@ -16,10 +16,11 @@ const styles = (theme: Theme) => createStyles({
         transform: 'scale(0.8)',
     },
     title: {
-        fontSize: 14,
+        fontSize: 24,
     },
     pos: {
         marginTop: 12,
+        fontSize: 24
     },
     clock: {
     }
@@ -58,7 +59,7 @@ class Clock extends React.Component<ClockProps> {
                     <Typography className={classes.title} color="textSecondary" gutterBottom>
                         {this.store.now.format('dddd')}
                     </Typography>
-                    <Typography variant="h3" component="h2">
+                    <Typography variant="h1" component="h2">
                         {this.store.now.format('HH:mm:ss')}
                     </Typography>
                     <Typography className={classes.pos} color="textSecondary">
