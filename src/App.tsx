@@ -20,6 +20,7 @@ import WebSocketClient, { WebSocketClientEvent } from './components/WebSocketCli
 import PresenceEvent from './events/PresenceEvent';
 import { debounce } from 'ts-debounce';
 import DeviceManager from './services/DeviceManager';
+import { useMediaQuery, useTheme } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
   menuButton: {
@@ -49,6 +50,7 @@ const deviceManager = new DeviceManager();
 const App: React.FC = () => {
 
   const classes = useStyles();
+  const theme = useTheme();
   const idleTimer = React.createRef<typeof IdleTimer>();
 
   const defaultIdleTimerTimeout = 5 * 60 * 1000;
@@ -115,22 +117,26 @@ const App: React.FC = () => {
                 <Typography variant="h6" className={classes.title}>
                   {routes.render('title')}
                 </Typography>
-                <Typography variant="h6" className={classes.clock}>
-                  <Clock />
-                </Typography>
-                <Link to="/entertain/music">
-                  <IconButton>
-                    <MusicIcon />
-                  </IconButton>
-                </Link>
-                <Link to="/cctv/door">
-                  <IconButton>
-                    <CameraIcon />
-                  </IconButton>
-                </Link>
-                <IconButton onClick={() => (document.location.href = '/?ts=' + Date.now())}>
-                  <RefreshIcon />
-                </IconButton>
+                {useMediaQuery(theme.breakpoints.up('sm')) && (
+                  <React.Fragment>
+                    <Typography variant="h6" className={classes.clock}>
+                      <Clock />
+                    </Typography>
+                    <Link to="/entertain/music">
+                      <IconButton>
+                        <MusicIcon />
+                      </IconButton>
+                    </Link>
+                    <Link to="/cctv/door">
+                      <IconButton>
+                        <CameraIcon />
+                      </IconButton>
+                    </Link>
+                    <IconButton onClick={() => (document.location.href = '/?ts=' + Date.now())}>
+                      <RefreshIcon />
+                    </IconButton>
+                  </React.Fragment>
+                )}
                 {routes.render(({ route }) => {
                   return (<BackButton route={route} />);
                 })}
