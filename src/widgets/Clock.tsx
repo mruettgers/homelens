@@ -1,6 +1,7 @@
 import React, { PropsWithChildren } from 'react';
 import { withStyles, createStyles, Theme, WithStyles } from '@material-ui/core';
-import moment, { Moment } from 'moment-timezone';
+import { observer } from 'mobx-react';
+import ClockStore from '../stores/ClockStore';
 
 const styles = (theme: Theme) => createStyles({
     root: {
@@ -10,35 +11,30 @@ const styles = (theme: Theme) => createStyles({
     }
 });
 
-const defaultTimezone = 'Europe/Berlin';
-
 interface ClockProps extends PropsWithChildren<WithStyles<typeof styles>> {
-    timezone?: string
 }
 
 interface ClockState {
-    now?: Moment
     showDate?: Boolean
 }
 
+@observer
 class Clock extends React.Component<ClockProps> {
 
+    store: ClockStore;
     state: ClockState = {
-        now: undefined,
         showDate: false
     }
 
     constructor(props: ClockProps) {
         super(props);
-        const { timezone = defaultTimezone } = props;
-        this.state.now = moment().tz(timezone);
-        setInterval(() => this.setState({ now: moment().tz(timezone) }), 1000);
+        this.store = new ClockStore();
     }
 
     render() {
         const { classes } = this.props;
 
-        if (!this.state.now) {
+        if (!this.store.now) {
             return null;
         }
 
@@ -47,8 +43,8 @@ class Clock extends React.Component<ClockProps> {
                 <span onClick={() => this.setState({ showDate: !this.state.showDate })}>
                     {
                         this.state.showDate
-                            ? this.state.now.format('YYYY-MM-DD')
-                            : this.state.now.format('HH:mm')
+                            ? this.store.now.format('YYYY-MM-DD')
+                            : this.store.now.format('HH:mm')
                     }
                 </span>
             </div>
