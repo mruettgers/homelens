@@ -3,8 +3,8 @@ import { withStyles, createStyles, Theme, WithStyles } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import ClockStore from '../stores/ClockStore';
 import { observer } from 'mobx-react';
+import { StoreContext } from '../contexts';
 
 const styles = (theme: Theme) => createStyles({
     root: {
@@ -36,20 +36,17 @@ interface ClockState {
 @observer
 class Clock extends React.Component<ClockProps> {
 
-    store: ClockStore
+    static contextType = StoreContext;
+
     state: ClockState = {
         showDate: false
     }
 
-    constructor(props: ClockProps) {
-        super(props);
-        this.store = new ClockStore();
-    }
-
     render() {
         const { classes } = this.props;
+        const { clockStore: store } = this.context;
 
-        if (!this.store.now) {
+        if (!store.now) {
             return null;
         }
 
@@ -57,13 +54,13 @@ class Clock extends React.Component<ClockProps> {
             <Card className={classes.root}>
                 <CardContent>
                     <Typography className={classes.title} color="textSecondary" gutterBottom>
-                        {this.store.now.format('dddd')}
+                        {store.now.format('dddd')}
                     </Typography>
                     <Typography variant="h1" component="h2">
-                        {this.store.now.format('HH:mm:ss')}
+                        {store.now.format('HH:mm:ss')}
                     </Typography>
                     <Typography className={classes.pos} color="textSecondary">
-                        {this.store.now.format('YYYY-MM-DD')}
+                        {store.now.format('YYYY-MM-DD')}
                     </Typography>
 
                 </CardContent>

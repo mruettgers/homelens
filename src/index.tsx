@@ -7,6 +7,7 @@ import * as serviceWorker from './serviceWorker';
 import { ThemeProvider } from '@material-ui/styles';
 import { createMuiTheme, CssBaseline } from '@material-ui/core';
 import { teal } from '@material-ui/core/colors';
+import ConfigLoader from './components/ConfigLoader';
 
 const theme = createMuiTheme({
     palette: {
@@ -18,7 +19,9 @@ const theme = createMuiTheme({
 ReactDOM.render(
     <ThemeProvider theme={theme}>
         <CssBaseline />
-        <App />
+        <ConfigLoader url="config.json">
+            <App />
+        </ConfigLoader>
     </ThemeProvider>
     , document.getElementById('root')
 );

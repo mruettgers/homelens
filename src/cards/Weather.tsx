@@ -1,13 +1,13 @@
 import React from 'react';
-import { withStyles, createStyles, Theme, WithStyles, Typography } from '@material-ui/core';
+import { createStyles, Theme, WithStyles, Typography, withStyles } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import ReactWeather from 'react-open-weather';
 //Optional include of the default css styles
 import 'react-open-weather/lib/css/ReactWeather.css';
 import 'weather-icons/css/weather-icons.css';
-import WeatherStore from '../stores/WeatherStore';
 import { observer } from 'mobx-react';
+import { StoreContext } from '../contexts';
 
 const styles = (theme: Theme) => createStyles({
     root: {
@@ -25,22 +25,23 @@ const styles = (theme: Theme) => createStyles({
     },
 });
 
-const store = new WeatherStore();
-
 @observer
 class Weather extends React.Component<WithStyles<typeof styles>> {
 
-    render() {
-        const { classes } = this.props;
+    static contextType = StoreContext;
 
+    render() {
+        const {configStore: config} = this.context;
+        const { classes } = this.props;
         return (
+            
             <Card className={classes.root}>
                 <CardContent>
-                    {store.openWeatherAPIKey
+                    {config.weather.openWeather.apiKey
                         ?
                         <ReactWeather
                             forecast="5days"
-                            apikey={store.openWeatherAPIKey}
+                            apikey={config.weather.openWeather.apiKey}
                             type="city"
                             city="Simmerath"
                             lang="de"
@@ -56,5 +57,6 @@ class Weather extends React.Component<WithStyles<typeof styles>> {
     }
 }
 
+Weather.contextType = StoreContext;
 
 export default withStyles(styles)(Weather);

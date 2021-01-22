@@ -1,7 +1,7 @@
 import React, { PropsWithChildren } from 'react';
 import { withStyles, createStyles, Theme, WithStyles } from '@material-ui/core';
 import { observer } from 'mobx-react';
-import ClockStore from '../stores/ClockStore';
+import { StoreContext } from '../contexts';
 
 const styles = (theme: Theme) => createStyles({
     root: {
@@ -21,20 +21,18 @@ interface ClockState {
 @observer
 class Clock extends React.Component<ClockProps> {
 
-    store: ClockStore;
+    static contextType = StoreContext;
+
     state: ClockState = {
         showDate: false
-    }
-
-    constructor(props: ClockProps) {
-        super(props);
-        this.store = new ClockStore();
     }
 
     render() {
         const { classes } = this.props;
 
-        if (!this.store.now) {
+        const {clockStore: store} = this.context;
+
+        if (store.now) {
             return null;
         }
 
@@ -43,8 +41,8 @@ class Clock extends React.Component<ClockProps> {
                 <span onClick={() => this.setState({ showDate: !this.state.showDate })}>
                     {
                         this.state.showDate
-                            ? this.store.now.format('YYYY-MM-DD')
-                            : this.store.now.format('HH:mm')
+                            ? store.now.format('YYYY-MM-DD')
+                            : store.now.format('HH:mm')
                     }
                 </span>
             </div>

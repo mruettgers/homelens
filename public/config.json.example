@@ -1,0 +1,26 @@
+{
+    "backend": {
+        "api": {
+            "websocket": {
+                "url": "ws://nodered.home/ws/doormon"
+            }
+        }
+    },
+    "locale": {
+        "lang": "de",
+        "timezone": "Europe/Berlin"
+    },
+    "cctv": {
+        "cameras": [{
+            "id": "front_door_1",
+            "streams": [{
+                "url": "http://"
+            }]
+        }]
+    },
+    "weather": {
+        "openWeather": {
+            "apiKey": "123123123123123123123"
+        }
+    }
+}

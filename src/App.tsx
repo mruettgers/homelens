@@ -21,6 +21,7 @@ import PresenceEvent from './events/PresenceEvent';
 import { debounce } from 'ts-debounce';
 import DeviceManager from './services/DeviceManager';
 import { useMediaQuery, useTheme } from '@material-ui/core';
+import { StoreContext } from './contexts';
 
 const useStyles = makeStyles(theme => ({
   menuButton: {
@@ -47,7 +48,10 @@ const history = createBrowserHistory();
 
 const deviceManager = new DeviceManager();
 
+
 const App: React.FC = () => {
+
+  const {configStore: config} = React.useContext(StoreContext);
 
   const classes = useStyles();
   const theme = useTheme();
@@ -103,7 +107,7 @@ const App: React.FC = () => {
   return (
     <Router history={history}>
       <WebSocketClient
-        url='ws://nodered.home/ws/doormon'
+        url={config.backend.api.websocket.url}
         onEvent={handleWebSocketEvent}
       />
       <IdleTimer ref={idleTimer} timeout={idleTimerTimeout} redirectTo="/" onTimer={handleTimerEvent} onIdle={handleIdleEvent}>
