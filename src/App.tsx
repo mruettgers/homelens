@@ -104,6 +104,7 @@ const App: React.FC = () => {
     setIdleTimerTimeout(newTimeout > 3 * defaultIdleTimerTimeout ? defaultIdleTimerTimeout : newTimeout);
   }
 
+  //TODO: Rotate background images
   return (
     <Router history={history}>
       <WebSocketClient
@@ -111,7 +112,7 @@ const App: React.FC = () => {
         onEvent={handleWebSocketEvent}
       />
       <IdleTimer ref={idleTimer} timeout={idleTimerTimeout} redirectTo="/" onTimer={handleTimerEvent} onIdle={handleIdleEvent}>
-        <div className="App">
+        <div className="App" style={{backgroundImage: 'url('+config.layout.backgrounds[0]+')'}}>
           <div className="header">
             <AppBar position="static">
               <Toolbar>
