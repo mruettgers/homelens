@@ -11,7 +11,7 @@ import Weather from '../cards/Weather';
 const styles = (theme: Theme) => createStyles({
     root: {
         flexGrow: 1,
-        padding: 24,
+        padding: 16,
         userSelect: 'none',
         opacity: 0.9,
     },
