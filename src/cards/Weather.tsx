@@ -12,6 +12,16 @@ import { StoreContext } from '../contexts';
 const styles = (theme: Theme) => createStyles({
     root: {
         minWidth: 275,
+        '& .rw-box-days': {
+            background: 'none',
+            color: theme.palette.text.primary,
+            border: 'none',
+            marginTop: '4px',
+            borderTop: '1px solid white',
+            '& .rw-day:not(:first-child)': {
+                borderLeft: 'none'
+            }
+        },
         '& .rw-main': {
             background: 'none',
             color: theme.palette.text.primary,

@@ -2,7 +2,7 @@ import React, { PropsWithChildren } from 'react';
 import axios from 'axios';
 import { StoreContext } from '../contexts';
 import ConfigStore from '../stores/ConfigStore';
-import { Box, CircularProgress, Container, Grid } from '@material-ui/core';
+import { Box, CircularProgress, Grid } from '@material-ui/core';
 
 interface ConfigLoaderProps {
     url: string;
