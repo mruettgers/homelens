@@ -32,7 +32,7 @@ class Clock extends React.Component<ClockProps> {
 
         const {clockStore: store} = this.context;
 
-        if (store.now) {
+        if (!store.now) {
             return null;
         }
 
