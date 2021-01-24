@@ -22,6 +22,9 @@ interface LocaleConfig {
 
 interface LayoutConfig {
     backgrounds: Array<string>
+    background: {
+        rotationInterval: number;
+    }
 }
 
 interface Config {
@@ -41,7 +44,10 @@ export default class ConfigStore extends Store {
 
     @observable
     layout: LayoutConfig = {
-        backgrounds: ['/assets/background/phil_noah_sw.png']
+        backgrounds: [],
+        background: {
+            rotationInterval: 5,
+        }
     }
 
     @observable

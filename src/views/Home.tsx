@@ -45,6 +45,7 @@ class Home extends React.Component<WithStyles<typeof styles>> {
                     <Grid item xs>
                         <Placeholder />
                     </Grid>
+                    {/*
                     <Grid item xs>
                         <Placeholder />
                     </Grid>
@@ -74,6 +75,7 @@ class Home extends React.Component<WithStyles<typeof styles>> {
                     <Grid item xs>
                         <Placeholder />
                     </Grid>
+                    */}
                 </Grid>
             </div>
         )
