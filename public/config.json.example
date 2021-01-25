@@ -10,6 +10,16 @@
         "lang": "de",
         "timezone": "Europe/Berlin"
     },
+    "layout": {
+        "background": {
+            "rotationInterval": 60
+        },
+        "backgrounds": [
+            "/assets/background/IMG_20210124_135941-0.jpg",
+            "/assets/background/IMG_20210124_135941-1.jpg",
+            "/assets/background/IMG_20210124_135941-3.jpg"
+        ]
+    },
     "cctv": {
         "cameras": [{
             "id": "front_door_1",
@@ -20,7 +30,7 @@
     },
     "weather": {
         "openWeather": {
-            "apiKey": "123123123123123123123"
+            "apiKey": "___YOUR_KEY___"
         }
     }
 }
