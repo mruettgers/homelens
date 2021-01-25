@@ -46,7 +46,7 @@ export default class ConfigStore extends Store {
     layout: LayoutConfig = {
         backgrounds: [],
         background: {
-            rotationInterval: 5,
+            rotationInterval: 60,
         }
     }
 

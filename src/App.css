@@ -2,13 +2,12 @@
     text-align: center;
     background-size: cover;
     background-repeat: no-repeat;
+    transition: background 1s;
     height: 100vh;
     width: 100%;
 }
 
 .App .content {
-    background-repeat: no-repeat;
-    background-size: cover;
     height: 100%;
     width: 100%;
     overflow: auto;

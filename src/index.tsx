@@ -19,7 +19,7 @@ const theme = createMuiTheme({
 ReactDOM.render(
     <ThemeProvider theme={theme}>
         <CssBaseline />
-        <ConfigLoader url="config.json">
+        <ConfigLoader url="/config.json">
             <App />
         </ConfigLoader>
     </ThemeProvider>
